@@ -26,19 +26,21 @@ label{display:block;font-weight:650;font-size:14px;margin:12px 0 5px}input[type=
 <label for="rh">Ref. ripening time (h)</label><input id="rh" type="number" inputmode="decimal" step="0.5">
 <p class="hint">Method: the levain is ripe when its microbes have regrown to the density of ripe starter. Time = ln(1 ÷ starter fraction) ÷ growth rate, and growth rate comes from published sourdough yeast and lactic-acid-bacteria data (Gänzle). Rates climb about 12% per °C between 14°C and 24°C, but flatten above ~26°C because yeast slows while bacteria speed up. Published data runs 10–40°C; values at 5–8°C are extrapolated.</p></details></section>
 <section class="card"><h2>1. Liquid levain build</h2><p class="sub" id="lsub"></p><p class="hint" id="warn" style="display:none;background:#fff1d6;border-left:4px solid #c97a1a;padding:10px;border-radius:6px"></p><div class="grid">
-<div class="stat"><small>Dark rye flour</small><strong id="lf"></strong></div><div class="stat"><small>Water</small><strong id="lw"></strong></div>
+<div class="stat"><small>Wholemeal wheat flour</small><strong id="lf"></strong></div><div class="stat"><small>Water</small><strong id="lw"></strong></div>
 <div class="stat"><small>Ripe starter</small><strong id="ls"></strong></div><div class="stat"><small>Starter % of fresh flour</small><strong id="pct"></strong></div>
 <div class="stat" style="grid-column:1/-1"><small>Mix with water at</small><strong id="wtemp"></strong></div>
-<div class="stat big"><small>Liquid levain total</small><strong id="lt"></strong></div></div></section>
-<section class="card"><h2>2. Final dough</h2><p class="sub">Add the whole ripe levain to these.</p><div class="grid">
+<div class="stat big"><small>Liquid levain total</small><strong id="lt"></strong></div>
+<div class="stat"><small>Keep back as starter</small><strong id="keepg"></strong></div><div class="stat"><small>Use in the dough</small><strong id="useg"></strong></div></div></section>
+<section class="card"><h2>2. Final dough</h2><p class="sub">Add the levain you are using (see above) to these.</p><div class="grid">
 <div class="stat"><small>Bread flour</small><strong id="af"></strong></div><div class="stat"><small>Water</small><strong id="aw"></strong></div>
 <div class="stat"><small>Fine sea salt</small><strong id="saltg"></strong></div><div class="stat" id="seedbox"><small>Mixed seeds</small><strong id="seedg"></strong></div>
+<div class="stat" style="grid-column:1/-1"><small>Ripe levain</small><strong id="levuse"></strong></div>
 <div class="stat big"><small>Total dough</small><strong id="tot"></strong></div></div>
 <button id="copy">Copy recipe</button><button class="s" id="reset">Reset</button></section>
 <p class="hint">As in your formula: pre-fermented flour = fresh levain flour as % of total flour; levain hydration = water as % of fresh levain flour; the starter itself is not counted in either. Starter amount is scaled from your reference (see Advanced). Works offline.</p></main>
 <script>
 const $=i=>document.getElementById(i),n=i=>Math.max(0,Number($(i).value)||0),f=(x,d=1)=>x.toFixed(d),T=x=>String(+x.toFixed(1));
-const D={flour:500,hyd:75,pff:11.2,lh:50,salt:1.9,seeds:3.7,temp:25,hours:6,wu:'',rp:16.7,rt:25.5,rh:6};
+const D={flour:500,hyd:75,pff:11.2,lh:50,salt:2,seeds:4,temp:25,hours:6,wu:'',rp:16.7,rt:25,rh:6};
 // growth rates per hour (Gänzle): yeast C. milleri and L. sanfranciscensis, 5-40 °C
 const TT=[5,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40],
 Y=[.009,.02,.033,.052,.078,.11,.16,.23,.30,.37,.42,.42,.35,.20,.05,0,0,0],
@@ -67,8 +69,8 @@ if(msg.length){wr.style.display='block';wr.textContent=msg.join(' ')}else wr.sty
 $('lsub').textContent=`Mix and keep at ${T(te)}°C for ${T(+hh.toFixed(1))} h until ripe.`;
 $('lf').textContent=f(N)+' g';$('lw').textContent=f(w)+' g';$('ls').textContent=f(m)+' g';$('pct').textContent=f(pct*100)+'%';$('lt').textContent=f(lt)+' g';
 $('af').textContent=f(af,0)+' g';$('aw').textContent=f(aw,0)+' g';$('saltg').textContent=f(salt,0)+' g';$('seedg').textContent=f(seeds,0)+' g';
-$('seedbox').style.display=sd>0?'':'none';$('tot').textContent=f(lt+af+aw+salt+seeds,0)+' g';
-return `Wheat sourdough, liquid levain\nLEVAIN (${T(te)}°C, ${T(+hh.toFixed(1))} h): ${f(N)} g dark rye flour + ${f(w)} g water (at ${f(tw,0)}°C) + ${f(m)} g ripe starter = ${f(lt)} g\nFINAL DOUGH (${f(H*100,0)}% hydration): ripe levain + ${f(af,0)} g bread flour + ${f(aw,0)} g water + ${f(salt,0)} g salt`+(sd>0?` + ${f(seeds,0)} g seeds`:'')+` = ${f(lt+af+aw+salt+seeds,0)} g`}
+$('seedbox').style.display=sd>0?'':'none';$('tot').textContent=f(N+w+af+aw+salt+seeds,0)+' g';$('keepg').textContent=f(m)+' g';$('useg').textContent=f(N+w)+' g';$('levuse').textContent=f(N+w)+' g';
+return `Wheat sourdough, liquid levain\nLEVAIN (${T(te)}°C, ${T(+hh.toFixed(1))} h): ${f(N)} g wholemeal wheat flour + ${f(w)} g water (at ${f(tw,0)}°C) + ${f(m)} g ripe starter = ${f(lt)} g. Keep ${f(m)} g as starter, use ${f(N+w)} g.\nFINAL DOUGH (${f(H*100,0)}% hydration): ${f(N+w)} g ripe levain + ${f(af,0)} g bread flour + ${f(aw,0)} g water + ${f(salt,0)} g salt`+(sd>0?` + ${f(seeds,0)} g seeds`:'')+` = ${f(N+w+af+aw+salt+seeds,0)} g`}
 for(const i of Object.keys(D))$(i).addEventListener('input',calc);$('useseeds').addEventListener('change',calc);
 function reset(){for(const[k,v]of Object.entries(D))$(k).value=v;$('useseeds').checked=true;calc()}
 $('reset').onclick=reset;
