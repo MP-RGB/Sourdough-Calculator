@@ -3,58 +3,74 @@
 <style>:root{--brown:#8a4f1c;--gold:#b9732c;--cream:#f6e7c8;--ink:#3a2a1a}*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;background:var(--cream);color:var(--ink);padding:0 14px 30px}
 header{display:flex;align-items:center;gap:12px;padding:18px 2px 10px}header img{width:48px;height:48px;border-radius:12px}h1{font-size:24px;margin:0}header p{margin:0;font-size:13px;color:#7a5a38}
 main{max-width:600px;margin:auto}.card{background:#fffaf0;border:1px solid #ead9b5;border-radius:16px;padding:18px;margin:14px 0}h2{font-size:18px;margin:0 0 4px;color:var(--brown)}.sub{font-size:13px;color:#7a5a38;margin:0 0 8px}
-label{display:block;font-weight:650;font-size:14px;margin:12px 0 5px}input[type=number]{width:100%;padding:12px;font-size:17px;border:1px solid #d8c295;border-radius:10px;background:#fff;color:inherit}input[type=range]{width:100%;accent-color:var(--gold)}
-.row{display:flex;justify-content:space-between;align-items:center}.row strong{font-size:20px;color:var(--brown)}.grid,.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid{margin-top:12px}
+label{display:block;font-weight:650;font-size:14px;margin:12px 0 5px}input[type=number],input[type=time]{width:100%;padding:12px;font-size:17px;border:1px solid #d8c295;border-radius:10px;background:#fff;color:inherit}input[type=range]{width:100%;accent-color:var(--gold)}
+.row{display:flex;justify-content:space-between;align-items:center}.row strong{font-size:20px;color:var(--brown)}.grid,.two,.three{display:grid;grid-template-columns:1fr 1fr;gap:10px}.three{grid-template-columns:1fr 1fr 1fr}.grid{margin-top:12px}
 .stat{background:#f6e7c8;border-radius:12px;padding:12px}.stat.big{grid-column:1/-1;background:var(--gold);color:#fff}.stat small{display:block;font-size:12px;opacity:.8}.stat strong{font-size:24px}
-.hint{font-size:13px;color:#7a5a38;line-height:1.5}button{background:var(--brown);color:#fff;border:0;border-radius:10px;padding:12px 16px;font-weight:700;font-size:15px;margin-top:12px}button.s{background:#ead9b5;color:var(--brown);margin-left:8px}</style></head><body>
+.hint{font-size:13px;color:#7a5a38;line-height:1.5}button{background:var(--brown);color:#fff;border:0;border-radius:10px;padding:12px 16px;font-weight:700;font-size:15px;margin-top:12px}button.s{background:#ead9b5;color:var(--brown);margin-left:8px}
+.day{font-weight:800;color:var(--brown);margin:18px 0 6px;font-size:15px;letter-spacing:.04em;text-transform:uppercase}.step{border-left:3px solid var(--gold);padding:2px 0 2px 12px;margin:0 0 14px}.step .t{font-size:13px;font-weight:700;color:var(--gold)}.step .h{font-weight:700;margin:1px 0 3px}.step p{margin:0;font-size:14px;line-height:1.5}.step p+p{margin-top:4px}.chk{display:flex;align-items:center;gap:8px;margin:12px 0 0;font-weight:650;font-size:14px}.chk input{width:20px;height:20px;accent-color:var(--gold)}</style></head><body>
 <main><header><img src="icons/icon-192.png" alt=""><div><h1>Wheat Sourdough</h1><p>Liquid levain &amp; dough calculator</p></div></header>
 <section class="card"><h2>Your dough</h2>
 <div class="two"><div><label for="flour">Total flour (g)</label><input id="flour" type="number" inputmode="decimal" min="1"></div>
 <div><label for="hyd">Overall hydration (%)</label><input id="hyd" type="number" inputmode="decimal" min="50" max="120"></div></div>
 <div class="two"><div><label for="pff">Pre-fermented flour (%)</label><input id="pff" type="number" inputmode="decimal" step="0.1" min="1" max="50"></div>
 <div><label for="lh">Levain hydration (%)</label><input id="lh" type="number" inputmode="decimal" min="20" max="200"></div></div>
-<div class="row"><label for="temp">Room temperature</label><strong id="tempout"></strong></div><input id="temp" type="range" min="5" max="40">
-<div class="row"><label for="hours">Levain ripe in</label><strong id="hoursout"></strong></div><input id="hours" type="range" min="3" max="24"><details style="margin-top:14px"><summary class="hint">Advanced</summary>
+<div class="two"><div><label for="salt">Salt (% of flour)</label><input id="salt" type="number" inputmode="decimal" step="0.1"></div>
+<div><label for="seeds">Seeds (% of flour)</label><input id="seeds" type="number" inputmode="decimal" step="0.1"></div></div>
+<label class="chk"><input id="useseeds" type="checkbox"> Include seeds</label>
+<div class="row"><label for="temp">Room temperature</label><strong id="tempout"></strong></div><input id="temp" type="range" min="5" max="40" step="0.5">
+<div class="row"><label for="hours">Levain ripe in</label><strong id="hoursout"></strong></div><input id="hours" type="range" min="3" max="24" step="0.5">
+<label for="wu">Warm the levain to (°C), optional</label><input id="wu" type="number" inputmode="decimal" min="5" max="40" placeholder="Leave empty to use room temperature"><details style="margin-top:14px"><summary class="hint">Advanced</summary>
 <p class="hint">Your reference levain. Every other temperature and time is scaled from it.</p>
 <div class="two"><div><label for="rp">Starter % of fresh flour</label><input id="rp" type="number" inputmode="decimal" step="0.1"></div>
-<div><label for="rt">Ref. temperature (°C)</label><input id="rt" type="number" inputmode="decimal"></div></div>
+<div><label for="rt">Ref. temperature (°C)</label><input id="rt" type="number" inputmode="decimal" step="0.5"></div></div>
 <label for="rh">Ref. ripening time (h)</label><input id="rh" type="number" inputmode="decimal" step="0.5">
 <p class="hint">Method: the levain is ripe when its microbes have regrown to the density of ripe starter. Time = ln(1 ÷ starter fraction) ÷ growth rate, and growth rate comes from published sourdough yeast and lactic-acid-bacteria data (Gänzle). Rates climb about 12% per °C between 14°C and 24°C, but flatten above ~26°C because yeast slows while bacteria speed up. Published data runs 10–40°C; values at 5–8°C are extrapolated.</p></details></section>
 <section class="card"><h2>1. Liquid levain build</h2><p class="sub" id="lsub"></p><p class="hint" id="warn" style="display:none;background:#fff1d6;border-left:4px solid #c97a1a;padding:10px;border-radius:6px"></p><div class="grid">
-<div class="stat"><small>Fresh flour</small><strong id="lf"></strong></div><div class="stat"><small>Water</small><strong id="lw"></strong></div>
+<div class="stat"><small>Dark rye flour</small><strong id="lf"></strong></div><div class="stat"><small>Water</small><strong id="lw"></strong></div>
 <div class="stat"><small>Ripe starter</small><strong id="ls"></strong></div><div class="stat"><small>Starter % of fresh flour</small><strong id="pct"></strong></div>
+<div class="stat" style="grid-column:1/-1"><small>Mix with water at</small><strong id="wtemp"></strong></div>
 <div class="stat big"><small>Liquid levain total</small><strong id="lt"></strong></div></div></section>
 <section class="card"><h2>2. Final dough</h2><p class="sub">Add the whole ripe levain to these.</p><div class="grid">
-<div class="stat"><small>Flour to add</small><strong id="af"></strong></div><div class="stat"><small>Water to add</small><strong id="aw"></strong></div></div>
+<div class="stat"><small>Bread flour</small><strong id="af"></strong></div><div class="stat"><small>Water</small><strong id="aw"></strong></div>
+<div class="stat"><small>Fine sea salt</small><strong id="saltg"></strong></div><div class="stat" id="seedbox"><small>Mixed seeds</small><strong id="seedg"></strong></div>
+<div class="stat big"><small>Total dough</small><strong id="tot"></strong></div></div>
 <button id="copy">Copy recipe</button><button class="s" id="reset">Reset</button></section>
-<p class="hint">As in your formula: pre-fermented flour = fresh levain flour as % of total flour; levain hydration = water as % of fresh levain flour; the starter itself is not counted in either. Starter amount is scaled from your reference (16.7% at 27°C for 6 h; see Advanced). Works offline.</p></main>
+<p class="hint">As in your formula: pre-fermented flour = fresh levain flour as % of total flour; levain hydration = water as % of fresh levain flour; the starter itself is not counted in either. Starter amount is scaled from your reference (see Advanced). Works offline.</p></main>
 <script>
-const $=i=>document.getElementById(i),n=i=>Math.max(0,Number($(i).value)||0),f=(x,d=1)=>x.toFixed(d);
-const D={flour:500,hyd:75,pff:11.2,lh:50,temp:27,hours:6,rp:16.7,rt:27,rh:6};
-// growth rates per hour (Gänzle): yeast C. milleri and L. sanfranciscensis, 10-34 °C every 2 °C
+const $=i=>document.getElementById(i),n=i=>Math.max(0,Number($(i).value)||0),f=(x,d=1)=>x.toFixed(d),T=x=>String(+x.toFixed(1));
+const D={flour:500,hyd:75,pff:11.2,lh:50,salt:1.9,seeds:3.7,temp:25,hours:6,wu:'',rp:16.7,rt:25.5,rh:6};
+// growth rates per hour (Gänzle): yeast C. milleri and L. sanfranciscensis, 5-40 °C
 const TT=[5,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40],
 Y=[.009,.02,.033,.052,.078,.11,.16,.23,.30,.37,.42,.42,.35,.20,.05,0,0,0],
 B=[.03,.047,.063,.084,.11,.14,.19,.24,.30,.37,.45,.49,.61,.66,.66,.58,.39,.10];
 // 5-8 °C values are extrapolated (data starts at 10 °C); yeast is taken as 0 above 36 °C
 function mu(t){t=Math.min(40,Math.max(5,t));let k=0;while(k<TT.length-2&&t>TT[k+1])k++;const x=(t-TT[k])/(TT[k+1]-TT[k]);return ((Y[k]+(Y[k+1]-Y[k])*x)+(B[k]+(B[k+1]-B[k])*x))/2}
-function calc(){const F=n('flour'),H=n('hyd')/100,p=n('pff')/100,lh=n('lh')/100,t=n('temp'),h=n('hours'),rp=n('rp')/100,rt=n('rt'),rh=n('rh');
-$('tempout').textContent=t+'°C';$('hoursout').textContent=h+' h';
+function calc(){const F=n('flour'),H=n('hyd')/100,p=n('pff')/100,lh=n('lh')/100,t=n('temp'),h=n('hours'),rp=n('rp')/100,rt=n('rt'),rh=n('rh'),sa=n('salt')/100,sd=$('useseeds').checked?n('seeds')/100:0;
+$('tempout').textContent=T(t)+'°C';$('hoursout').textContent=T(h)+' h';
+const wuv=$('wu').value.trim(),te=wuv===''?t:Math.min(40,Math.max(5,Number(wuv)||t));   // temperature the levain actually ripens at
 const f0=rp/(1+lh+rp);                       // reference starter fraction of levain
-let fr=f0*Math.exp(mu(rt)*rh-mu(t)*h),capped=false;
-if(fr>.4){fr=.4;capped=true}fr=Math.max(.005,fr);
+let fr=f0*Math.exp(mu(rt)*rh-mu(te)*h),capped=false,hh=h;const maxF=Math.min(.4,2*f0);   // never more than about double the reference starter
+if(fr>maxF){fr=maxF;capped=true;if(te<=34)hh=(mu(rt)*rh-Math.log(fr/f0))/mu(te)}fr=Math.max(.005,fr);
 const pct=fr*(1+lh)/(1-fr);                  // starter as fraction of fresh flour
-const N=p*F,w=lh*N,m=pct*N,lt=N+w+m,af=Math.max(0,F-N),aw=Math.max(0,F*H-w);
+const N=p*F,w=lh*N,m=pct*N,lt=N+w+m,af=Math.max(0,F-N),aw=Math.max(0,F*H-w),salt=F*sa,seeds=F*sd;
 const wr=$('warn'),msg=[];
-if(capped)msg.push(`At ${t}°C a levain can't ripen reliably in ${h} h. This is the most starter that makes sense. Allow more time or bring the levain closer to ${f(rt,0)}°C (${t<rt?'e.g. mix with warm water':'e.g. mix with cool water'}).`);
-if(t>34)msg.push(`Above about 34°C the yeast stops growing, so the levain will turn sour instead of rising well. Cool it if you can.`);
-if(t<10)msg.push(`Below 10°C growth is very slow and this estimate is extrapolated. Treat it as a rough guide.`);
+if(capped&&te<=34)msg.push(`At ${T(te)}°C this levain needs about ${f(hh,0)} h, not ${T(h)} h, even with about double the usual starter.`+(hh>48?` That is very long. Warm the levain towards ${T(rt)}°C instead (e.g. mix with warm water).`:` Bringing it closer to ${T(rt)}°C would shorten this.`));
+if(te>34)msg.push(`Above about 34°C the yeast stops growing, so the levain will turn sour instead of rising well. Cool it if you can.`);
+if(te<10)msg.push(`Below 10°C growth is very slow and this estimate is extrapolated. Treat it as a rough guide.`);
+// water temperature so the mixed levain starts at te: heat-capacity weighted mix (flour 0.42, starter 0.71, water 1.0), flour and starter at room temperature
+const mf=N*.42,ms=m*.71,mw=w,tw=(te*(mf+ms+mw)-(mf+ms)*t)/mw;
+$('wtemp').textContent=f(tw,0)+'°C';
+if(tw>45)msg.push(`The water would need to be ${f(tw,0)}°C, which is hot enough to harm the starter. Use water at about 45°C at most, warm the flour and starter slightly, or accept a lower starting temperature.`);
+if(tw<5)msg.push(`The water would need to be ${f(tw,0)}°C. Use very cold water with ice, or accept a higher starting temperature.`);
+if(Math.abs(te-t)>2)msg.push(`Keep the levain warm (for example in an oven with only the light on). In a ${T(t)}°C room it will cool and ripen more slowly than this timing assumes.`);
 if(msg.length){wr.style.display='block';wr.textContent=msg.join(' ')}else wr.style.display='none';
-$('lsub').textContent=`Mix and keep at ${t}°C for ${h} h until ripe.`;
+$('lsub').textContent=`Mix and keep at ${T(te)}°C for ${T(+hh.toFixed(1))} h until ripe.`;
 $('lf').textContent=f(N)+' g';$('lw').textContent=f(w)+' g';$('ls').textContent=f(m)+' g';$('pct').textContent=f(pct*100)+'%';$('lt').textContent=f(lt)+' g';
-$('af').textContent=f(af,0)+' g';$('aw').textContent=f(aw,0)+' g';
-return `Wheat sourdough, liquid levain\nLEVAIN (${t}°C, ${h} h): ${f(N)} g flour + ${f(w)} g water + ${f(m)} g ripe starter = ${f(lt)} g\nFINAL DOUGH (${f(H*100,0)}% hydration): ripe levain + ${f(af,0)} g flour + ${f(aw,0)} g water`}
-for(const i of Object.keys(D))$(i).addEventListener('input',calc);
-function reset(){for(const[k,v]of Object.entries(D))$(k).value=v;calc()}
+$('af').textContent=f(af,0)+' g';$('aw').textContent=f(aw,0)+' g';$('saltg').textContent=f(salt,0)+' g';$('seedg').textContent=f(seeds,0)+' g';
+$('seedbox').style.display=sd>0?'':'none';$('tot').textContent=f(lt+af+aw+salt+seeds,0)+' g';
+return `Wheat sourdough, liquid levain\nLEVAIN (${T(te)}°C, ${T(+hh.toFixed(1))} h): ${f(N)} g dark rye flour + ${f(w)} g water (at ${f(tw,0)}°C) + ${f(m)} g ripe starter = ${f(lt)} g\nFINAL DOUGH (${f(H*100,0)}% hydration): ripe levain + ${f(af,0)} g bread flour + ${f(aw,0)} g water + ${f(salt,0)} g salt`+(sd>0?` + ${f(seeds,0)} g seeds`:'')+` = ${f(lt+af+aw+salt+seeds,0)} g`}
+for(const i of Object.keys(D))$(i).addEventListener('input',calc);$('useseeds').addEventListener('change',calc);
+function reset(){for(const[k,v]of Object.entries(D))$(k).value=v;$('useseeds').checked=true;calc()}
 $('reset').onclick=reset;
 $('copy').onclick=async()=>{const t=calc();try{await navigator.clipboard.writeText(t);$('copy').textContent='Copied';setTimeout(()=>$('copy').textContent='Copy recipe',1500)}catch{prompt('Copy:',t)}};
 reset();if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
