@@ -60,8 +60,8 @@ if(capped&&te<=34)msg.push(`At ${T(te)}°C this levain needs about ${f(hh,0)} h,
 if(te>34)msg.push(`Above about 34°C the yeast stops growing, so the levain will turn sour instead of rising well. Cool it if you can.`);
 if(te<10)msg.push(`Below 10°C growth is very slow and this estimate is extrapolated. Treat it as a rough guide.`);
 // water temperature so the mixed levain starts at te: heat-capacity weighted mix (flour 0.42, starter 0.71, water 1.0), flour and starter at room temperature
-const mf=N*.42,ms=m*.71,mw=w,tw=(te*(mf+ms+mw)-(mf+ms)*t)/mw;
-$('wtemp').textContent=f(tw,0)+'°C';
+const mf=N*.42,ms=m*.71,mw=w,tw=mw>0?(te*(mf+ms+mw)-(mf+ms)*t)/mw:t;
+$('wtemp').textContent=mw>0?f(tw,0)+'°C':'–';
 if(tw>45)msg.push(`The water would need to be ${f(tw,0)}°C, which is hot enough to harm the starter. Use water at about 45°C at most, warm the flour and starter slightly, or accept a lower starting temperature.`);
 if(tw<5)msg.push(`The water would need to be ${f(tw,0)}°C. Use very cold water with ice, or accept a higher starting temperature.`);
 if(Math.abs(te-t)>2)msg.push(`Keep the levain warm (for example in an oven with only the light on). In a ${T(t)}°C room it will cool and ripen more slowly than this timing assumes.`);
